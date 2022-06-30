@@ -5,40 +5,19 @@ using UnityEngine;
 public class CharacterControls : MonoBehaviour
 {
     
-     public float jumpForce = 10f;
-     public float gravity = -9.81f;
-     float velocity;
-     [SerializeField] float moveRight = 0.01f;
-     [SerializeField] float moveLeft = -0.01f;
-     
-     
-    void Update()
+    public CharacterController2D controller;
+
+    public float runSpeed = 40f;
+    float horizontalMove = 0f;
+    void update()
     {
-        velocity += gravity * Time.deltaTime;
-        if((Input.GetKeyDown(KeyCode.UpArrow) && Input.GetKeyDown(KeyCode.RightArrow)) || Input.GetKeyDown(KeyCode.UpArrow) && Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            //i can use for loop to make double jump mechanic in the future.
-            //int count = 3;
-            //for(int i = 0; i <= count; i++){
-            // }
-            
-            
-            
-           velocity = jumpForce;
-           transform.Translate(new Vector3(0,velocity,0)*Time.deltaTime);
-        }
-            
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
-        else if(Input.GetKey(KeyCode.LeftArrow)){
-            float moveSpeedL = (Input.GetAxis("Vertical") * moveLeft)*Time.deltaTime;
-            transform.Translate(moveLeft,0,0);
-        }
-        else if(Input.GetKey(KeyCode.RightArrow)){
-             float moveSpeedR = (Input.GetAxis("Vertical") * moveRight)*Time.deltaTime;
-             transform.Translate(moveRight,0,0);
-        }
-       
     }
-
-    
+    void FixedUpdate()
+    {
+        controller.Move(horizontalMove * Time.deltaTime, false, false);
+    }
 }
+    
+
